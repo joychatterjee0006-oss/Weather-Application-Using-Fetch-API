@@ -16,3 +16,6 @@ A responsive HTML/CSS/JavaScript weather dashboard based on the supplied UI refe
 The JavaScript is written for WeatherAPI.com's `forecast.json` endpoint because the dashboard needs current weather, hourly data, a 7-day forecast, sunrise/sunset, moon phase and rain probability.
 
 If your key is from a different provider (OpenWeatherMap, Weatherbit, Weatherstack, etc.), tell me the provider name and I can change the API integration without changing the UI.
+
+
+https://weather-application-using-fetch-api.vercel.app/
