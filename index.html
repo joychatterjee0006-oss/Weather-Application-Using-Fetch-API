@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Weather — Better Days Ahead</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">🌤️</div>
+        <div>
+          <h1>Weather</h1>
+          <span>Better Days Ahead</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
+        <button class="nav-item" data-view="hourly"><span>◷</span> Hourly Forecast</button>
+        <button class="nav-item" data-view="forecast"><span>▣</span> 7 Day Forecast</button>
+        <button class="nav-item" data-view="map"><span>⌖</span> Map</button>
+        <button class="nav-item" data-view="radar"><span>◉</span> Radar</button>
+        <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+      </nav>
+
+      <div class="sidebar-art">
+        <div class="mountains"></div>
+        <p>Different weather,<br>same beautiful world.</p>
+        <div class="tiny-line"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search-wrap">
+          <span>⌕</span>
+          <input id="citySearch" type="text" placeholder="Search city, country..." autocomplete="off">
+          <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <div class="location" id="locationBtn" title="Detect my location" style="cursor:pointer">
+          <span class="pin">📍</span>
+          <div>
+            <strong id="locationName">Kolkata</strong>
+            <small id="locationRegion">West Bengal, India</small>
+          </div>
+          <span class="chevron">⌄</span>
+        </div>
+
+        <div class="top-actions">
+          <div class="date-time">
+            <strong id="currentDate">—</strong>
+            <span id="currentTime">—</span>
+          </div>
+          <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+            <span>☀</span><span>🌙</span>
+          </button>
+          <button class="settings-btn" id="settingsBtn">⚙</button>
+        </div>
+      </header>
+
+      <!-- HOME VIEW -->
+      <section class="dashboard-grid" id="view-home">
+        <div class="left-column">
+          <section class="hero card">
+            <div class="hero-image" id="heroImage"></div>
+            <div class="hero-content">
+              <div class="hero-main">
+                <div class="weather-symbol" id="heroIcon">🌤️</div>
+                <div class="temperature" id="heroTemp">28<sup>°C</sup></div>
+              </div>
+              <h2 id="condition">Partly Cloudy</h2>
+              <p>Feels like <strong id="feelsLike">32°C</strong></p>
+              <div class="hi-low"><span>↑ <b id="todayHigh">32°</b></span><span>↓ <b id="todayLow">26°</b></span></div>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat"><span class="stat-icon">💧</span><div><small>Humidity</small><strong id="humidity">68%</strong></div></div>
+              <div class="stat"><span class="stat-icon">≋</span><div><small>Wind</small><strong id="wind">12 km/h</strong><em id="windDir">NE</em></div></div>
+              <div class="stat"><span class="stat-icon">◉</span><div><small>Pressure</small><strong id="pressure">1008 hPa</strong></div></div>
+              <div class="stat"><span class="stat-icon">◉</span><div><small>Visibility</small><strong id="visibility">10 km</strong></div></div>
+              <div class="stat"><span class="stat-icon">☀</span><div><small>UV Index</small><strong id="uv">6 (High)</strong></div></div>
+            </div>
+          </section>
+
+          <section class="section-card card" id="hourlySection">
+            <div class="section-heading">
+              <h3>◷ &nbsp;Hourly Forecast</h3>
+              <button id="next24">Next 24 Hours →</button>
+            </div>
+            <div class="hourly-row" id="hourlyRow"></div>
+          </section>
+
+          <section class="section-card card" id="forecastSection">
+            <div class="section-heading">
+              <h3>▣ &nbsp;7 Day Forecast</h3>
+              <button id="fullForecastBtn">View Full Forecast →</button>
+            </div>
+            <div class="daily-grid" id="dailyGrid"></div>
+          </section>
+        </div>
+
+        <aside class="right-column">
+          <section class="info-card card">
+            <h3>🌤️ &nbsp;Current Conditions</h3>
+            <div class="condition-list">
+              <div><span>🌡️ Temperature</span><b id="sideTemp">28°C</b></div>
+              <div><span>🌡️ Feels Like</span><b id="sideFeels">32°C</b></div>
+              <div><span>💧 Humidity</span><b id="sideHumidity">68%</b></div>
+              <div><span>≋ Wind Speed</span><b id="sideWind">12 km/h NE</b></div>
+              <div><span>◉ Pressure</span><b id="sidePressure">1008 hPa</b></div>
+              <div><span>◉ Visibility</span><b id="sideVisibility">10 km</b></div>
+              <div><span>☀ UV Index</span><b id="sideUv">6 (High)</b></div>
+            </div>
+          </section>
+
+          <section class="sun-card card">
+            <h3>☀ &nbsp;Sun &amp; Moon</h3>
+            <div class="sun-grid">
+              <div>
+                <div class="sun-row">🌅 <span>Sunrise<strong id="sunrise">5:45 AM</strong></span></div>
+                <div class="sun-row">🌇 <span>Sunset<strong id="sunset">6:18 PM</strong></span></div>
+              </div>
+              <div class="moon">
+                <span id="moonIcon">🌔</span>
+                <small>Moon Phase</small>
+                <strong id="moonPhase">Waxing Gibbous</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="radar-card card">
+            <div class="section-heading">
+              <h3>◉ &nbsp;Radar &amp; Precipitation</h3>
+            </div>
+            <div class="radar">
+              <div class="radar-glow"></div>
+              <div class="radar-label" id="radarLabel">Kolkata</div>
+              <div class="radar-dot"></div>
+              <div class="map-place p1">Bally</div>
+              <div class="map-place p2">Howrah</div>
+              <div class="map-place p3">Barasat</div>
+              <div class="map-place p4">Dum Dum</div>
+              <div class="map-place p5">Diamond Harbour</div>
+              <div class="legend"><span>Light</span><i></i><span>Heavy</span></div>
+              <button id="viewMapBtn">View Full Map →</button>
+            </div>
+          </section>
+
+          <section class="highlights card">
+            <h3>◉ &nbsp;Weather Highlights</h3>
+            <div class="highlight-grid">
+              <div><span>☂</span><small>Rain Probability</small><b id="rainProb">40%</b><em>Light rain expected</em></div>
+              <div><span>🍃</span><small>Air Quality</small><b id="airQuality">Good</b><em id="airQualityDetail">PM2.5: —</em></div>
+              <div><span>🌡️</span><small>Feels Like</small><b id="highlightFeels">32°C</b><em>Hot &amp; Humid</em></div>
+              <div><span>≋</span><small>Wind Gusts</small><b id="gusts">18 km/h</b><em id="gustDir">NE</em></div>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <!-- MAP VIEW -->
+      <section class="view-page" id="view-map" style="display:none">
+        <div class="page-header">
+          <h2>⌖ &nbsp;Weather Map</h2>
+          <p id="mapSubtitle">Showing location on map</p>
+        </div>
+        <div class="map-container card">
+          <iframe
+            id="googleMap"
+            src="https://maps.google.com/maps?q=Kolkata&output=embed&z=11"
+            style="width:100%;height:500px;border:0;border-radius:14px;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <div class="map-info-bar">
+            <div><span>📍</span><strong id="mapCity">Kolkata</strong></div>
+            <div><span>🌡️</span><strong id="mapTemp">28°C</strong></div>
+            <div><span>☁</span><strong id="mapCondition">Partly Cloudy</strong></div>
+            <div><span>💧</span><strong id="mapHumidity">68%</strong></div>
+            <div><span>≋</span><strong id="mapWind">12 km/h</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section class="view-page" id="view-settings" style="display:none">
+        <div class="page-header">
+          <h2>⚙ &nbsp;Settings</h2>
+          <p>Customize your weather experience</p>
+        </div>
+        <div class="settings-grid">
+
+          <div class="settings-card card">
+            <h3>🌡️ &nbsp;Units</h3>
+            <div class="settings-list">
+              <div class="settings-row">
+                <div>
+                  <strong>Temperature</strong>
+                  <small>Celsius or Fahrenheit</small>
+                </div>
+                <div class="toggle-group" id="unitToggle">
+                  <button class="tog-btn active" data-unit="C">°C</button>
+                  <button class="tog-btn" data-unit="F">°F</button>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <strong>Wind Speed</strong>
+                  <small>km/h or mph</small>
+                </div>
+                <div class="toggle-group" id="windToggle">
+                  <button class="tog-btn active" data-wind="kph">km/h</button>
+                  <button class="tog-btn" data-wind="mph">mph</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card card">
+            <h3>🎨 &nbsp;Appearance</h3>
+            <div class="settings-list">
+              <div class="settings-row">
+                <div>
+                  <strong>Theme</strong>
+                  <small>Dark or Light mode</small>
+                </div>
+                <div class="toggle-group" id="themeSettingToggle">
+                  <button class="tog-btn active" data-theme="dark">🌙 Dark</button>
+                  <button class="tog-btn" data-theme="light">☀ Light</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card card">
+            <h3>📍 &nbsp;Location</h3>
+            <div class="settings-list">
+              <div class="settings-row">
+                <div>
+                  <strong>Current City</strong>
+                  <small id="defaultCityLabel">Kolkata</small>
+                </div>
+                <button class="save-btn" id="gpsBtn">📍 Use GPS</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
